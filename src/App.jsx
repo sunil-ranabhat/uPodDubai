@@ -4,6 +4,7 @@ import FAQPage from "./pages/FAQ";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import ContactUs from "./pages/ContactUs";
+import Footer from "./components/Footer";
 
 
 const App = () => {
@@ -15,8 +16,9 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/faq" element={<FAQPage />} />
-          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/contactus" element={<ContactUs />} />
         </Routes>
+        <Footer />
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const ContactUs = () => {
   return (
-    <div className="min-h-screen  flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center px-4">
       <motion.div
         className="bg-white shadow-lg rounded-lg w-full max-w-4xl flex flex-wrap overflow-hidden"
         initial={{ opacity: 0, scale: 0.9 }}
@@ -12,30 +12,32 @@ const ContactUs = () => {
       >
         {/* Left Section */}
         <div className="w-full lg:w-1/2 bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-8">
-          <h2 className="text-2xl font-bold mb-4">Get in Touch</h2>
-          <p className="text-sm mb-6">
+          <h2 className="text-xl md:text-2xl font-bold mb-4">Get in Touch</h2>
+          <p className="text-sm md:text-base mb-6">
             We're here to help and answer any questions you might have. We look
             forward to hearing from you!
           </p>
           <div className="space-y-4">
             <div>
               <h3 className="text-lg font-semibold">Address</h3>
-              <p>1234 Street Name, City, Country</p>
+              <p className="text-sm md:text-base">Empire Heights Tower B</p>
             </div>
             <div>
               <h3 className="text-lg font-semibold">Email</h3>
-              <p>contact@example.com</p>
+              <p className="text-sm md:text-base">upoddubai@gmail.com</p>
             </div>
             <div>
               <h3 className="text-lg font-semibold">Phone</h3>
-              <p>+123 456 7890</p>
+              <p className="text-sm md:text-base">+971563119686</p>
             </div>
           </div>
         </div>
 
         {/* Right Section */}
-        <div className="w-full lg:w-1/2 p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Contact Us</h2>
+        <div className="w-full lg:w-1/2 p-6 sm:p-8">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+            Contact Us
+          </h2>
           <form className="space-y-4">
             <div>
               <label
@@ -93,4 +95,5 @@ const ContactUs = () => {
 };
 
 export default ContactUs;
+
 
