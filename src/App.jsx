@@ -4,6 +4,9 @@ import FAQPage from "./pages/FAQ";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import ContactUs from "./pages/ContactUs";
+import Booking from "./pages/Booking";
+import Footer from "./components/Footer";
+import Signup from "./pages/Signup";
 
 
 const App = () => {
@@ -18,6 +21,7 @@ const App = () => {
           <Route path="/booknow" element={<Booking />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/login" element={<Signup/>} />
         </Routes>
         <Footer />
       </div>

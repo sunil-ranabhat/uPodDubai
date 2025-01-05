@@ -1,6 +1,6 @@
 import React from "react";
 
-const Card = () => {
+const Booking = () => {
   return (
     <div className="flex flex-col md:flex-row justify-between px-4 py-10 min-h-screen">
       {/* Card aligned to the left with background image */}
@@ -30,4 +30,4 @@ const Card = () => {
   );
 };
 
-export default Card;
+export default Booking;
