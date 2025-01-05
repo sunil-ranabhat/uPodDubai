@@ -40,6 +40,7 @@ const Navbar = () => {
           </Link>
         </div>
 
+
         {/* Mobile Menu Button */}
         <button
           className="md:hidden text-3xl focus:outline-none"
