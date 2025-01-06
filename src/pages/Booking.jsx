@@ -27,7 +27,7 @@ const Booking = () => {
             <h2 className="text-4xl font-semibold mt-4">Studio 1</h2>
             <div>
               
-              <button className="px-6 py-2 bg-yellow-500 text-black font-bold rounded-lg hover:bg-yellow-600 transition-colors">
+              <button className="px-6 py-2 bg-[#ff7900] text-black font-bold rounded-lg hover:bg-orange-400 transition-colors">
                 Book Now
               </button>
             </div>
@@ -47,7 +47,7 @@ const Booking = () => {
             <h2 className="text-4xl font-semibold mt-4">Studio 2</h2>
             <div>
               
-              <button className="px-6 py-2 bg-yellow-500 text-black font-bold rounded-lg hover:bg-yellow-600 transition-colors">
+              <button className="px-6 py-2 bg-[#ff7900] text-black font-bold rounded-lg hover:bg-orange-400 transition-colors">
                 Book Now
               </button>
             </div>
