@@ -8,7 +8,7 @@ function SignUp() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen bg-gray-500">
       <div className="max-w-sm w-full bg-gradient-to-t from-white to-[#f4f7fb] rounded-2xl p-6 border-4 border-white shadow-[0px_30px_30px_-20px_rgba(133,189,215,0.88)] mx-5">
         <div className="text-center font-extrabold text-xl text-[#1089D3]">
           {isSignUp ? "Sign Up" : "Sign In"}

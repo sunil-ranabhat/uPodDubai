@@ -1,31 +1,62 @@
 import React from "react";
 
+import studio2 from "../assets/studio2.webp";
+import studio3 from "../assets/Studio-3.avif";
+
 const Booking = () => {
   return (
-    <div className="flex flex-col md:flex-row justify-between px-4 py-10 min-h-screen">
-      {/* Card aligned to the left with background image */}
-      <div className="flex items-center justify-start mb-10 md:mb-0 md:pl-[15%]">
-        <div
-          className="w-full md:w-[450px] h-[350px] md:h-[580px] bg-cover bg-center border border-white shadow-[12px_17px_51px_rgba(0,0,0,0.22)] backdrop-blur-[6px] rounded-[17px] text-center cursor-pointer  transform flex items-center justify-center select-none font-bold text-black hover:border-black hover:scale-[1.02] hover:max-w-full hover:max-h-full active:scale-[0.95] active:rotate-[1.7deg] transition-transform duration-300 ease-in-out"
-          style={{
-            backgroundImage: `url('https://example.com/your-image.jpg')`, // Replace with your image URL
-          }}
-        >
-          {/* Card content */}
+    <div>
+      {/* Upper Section with Big Header */}
+      <div className="bg-black text-white text-center py-20 px-4">
+        <h1 className="text-4xl md:text-6xl font-bold">Choose Studio</h1>
+      </div>
+
+      {/* Booking Cards Section */}
+      <div className="flex flex-col md:flex-row flex-wrap justify-center items-center px-4 py-16 bg-white gap-12">
+        
+        {/* Studio 1 Card */}
+        <div className="w-full sm:w-[80%] md:w-[45%] lg:w-[35%] h-[450px] relative rounded-[17px] overflow-hidden shadow-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
+          {/* Image */}
+          <img
+            src={studio3}
+            alt="Luxury Suite"
+            className="w-full h-full object-cover"
+          />
+          {/* Overlay with content */}
+          <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-between items-center text-center text-white p-6">
+            <h2 className="text-4xl font-semibold mt-4">Studio 1</h2>
+            <div>
+              
+              <button className="px-6 py-2 bg-yellow-500 text-black font-bold rounded-lg hover:bg-yellow-600 transition-colors">
+                Book Now
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Studio 2 Card */}
+        <div className="w-full sm:w-[80%] md:w-[45%] lg:w-[35%] h-[450px] relative rounded-[17px] overflow-hidden shadow-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
+          {/* Image */}
+          <img
+            src={studio2}
+            alt="Deluxe Room"
+            className="w-full h-full object-cover"
+          />
+          {/* Overlay with content */}
+          <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-between items-center text-center text-white p-6">
+            <h2 className="text-4xl font-semibold mt-4">Studio 2</h2>
+            <div>
+              
+              <button className="px-6 py-2 bg-yellow-500 text-black font-bold rounded-lg hover:bg-yellow-600 transition-colors">
+                Book Now
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Card aligned to the right with background image */}
-      <div className="flex items-center justify-end md:pr-[15%]">
-        <div
-          className="w-full md:w-[450px] h-[350px] md:h-[580px] bg-cover bg-center border border-white shadow-[12px_17px_51px_rgba(0,0,0,0.22)] backdrop-blur-[6px] rounded-[17px] text-center cursor-pointer  transform flex items-center justify-center select-none font-bold text-black hover:border-black hover:scale-[1.02] hover:max-w-full hover:max-h-full active:scale-[0.95] active:rotate-[1.7deg] transition-transform duration-300 ease-in-out"
-          style={{
-            backgroundImage: `url('https://example.com/your-image.jpg')`, // Replace with your image URL
-          }}
-        >
-          {/* Card content */}
-        </div>
-      </div>
+      {/* Footer Spacer */}
+      <div className="py-10 bg-white"></div>
     </div>
   );
 };

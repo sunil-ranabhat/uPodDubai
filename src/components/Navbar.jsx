@@ -1,29 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import onlumic1 from "../assets/Onlumic1.avif";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full shadow-lg z-50 transition-all duration-300 ${
-        scrolled ? "bg-blue-600 text-white" : "bg-transparent text-black"
-      }`}
+      className="fixed top-0 left-0 w-full bg-[#ff7900] text-black  z-50"
     >
       <div className="container mx-auto px-6 py-4 flex justify-between items-center max-w-7xl">
         {/* Logo */}
@@ -34,8 +18,8 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex space-x-6 font-semibold text-lg">
-          {["Home", "Book Now", "Photo Gallery", "FAQ", "Contact Us"].map(
+        <ul className="hidden md:flex space-x-6 font-semibold text-xl">
+          {["HOME", "BOOK NOW", "PHOTO GALLERY", "FAQ", "CONTACT US"].map(
             (item, index) => (
               <li key={index}>
                 <Link
@@ -59,7 +43,6 @@ const Navbar = () => {
           </Link>
         </div>
 
-
         {/* Mobile Menu Button */}
         <button
           className="md:hidden text-3xl focus:outline-none"
@@ -71,7 +54,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden fixed top-0 left-0 w-full h-full bg-blue-600 text-white transform transition-transform duration-300 ${
+        className={`md:hidden fixed top-0 left-0 w-full h-full bg-black text-white transform transition-transform duration-300 ${
           isMenuOpen ? "translate-y-0" : "-translate-y-full"
         }`}
       >
@@ -81,8 +64,8 @@ const Navbar = () => {
         >
           ✕
         </button>
-        <ul className="flex flex-col items-center justify-center space-y-6 h-full text-lg">
-          {["Home", "Book Now", "Photo Gallery", "FAQ", "Contact Us"].map(
+        <ul className="flex flex-col items-center justify-center space-y-6 h-full text-xl">
+          {["HOME", "BOOK NOW", "PHOTO GALLERY", "FAQ", "CONTACT US"].map(
             (item, index) => (
               <li key={index}>
                 <Link
