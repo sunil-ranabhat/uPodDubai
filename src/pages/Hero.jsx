@@ -9,10 +9,10 @@ const HeroSection = () => {
 
       {/* Center Content */}
       <div className="text-center text-white z-10 px-5">
-        <h1 className="text-4xl md:text-6xl font-bold mb-8">
+        <h1 className="text-4xl md:text-6xl font-bold mb-8 ">
           GET THE BEST PODCASTING EXPERIENCE IN DUBAI
         </h1>
-        <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-4 px-10 rounded-lg text-lg md:text-xl">
+        <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-4 px-10 rounded-lg text-xl md:text-xl mt-16">
           BOOK ONLINE
         </button>
       </div>
