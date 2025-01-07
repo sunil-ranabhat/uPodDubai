@@ -8,22 +8,22 @@ const Footer = () => {
         <div className="flex flex-col items-center space-y-4">
           {/* Top Section */}
           <div className="text-center">
-            <p className="text-sm font-medium">© 2025 by U Pod Studio Dubai.</p>
+            <p className="text-md font-medium">© 2025 by U Pod Studio Dubai.</p>
           </div>
 
           {/* Middle Section */}
           <div className="text-center">
-            <p className="text-sm">Empire Heights Tower B</p>
+            <p className="text-md">Empire Heights Tower B</p>
           </div>
 
           {/* Bottom Section */}
           <div className="text-center">
-            <p className="text-sm">
+            <p className="text-md">
               <a href="mailto:upoddubai@gmail.com" className="hover:underline">
                 upoddubai@gmail.com
               </a>
             </p>
-            <p className="text-sm">
+            <p className="text-md">
               Tel:{" "}
               <a href="tel:+971563119686" className="hover:underline">
                 +971 563119686
