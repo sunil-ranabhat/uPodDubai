@@ -7,6 +7,7 @@ import ContactUs from "./pages/ContactUs";
 import Booking from "./pages/Booking";
 import Footer from "./components/Footer";
 import Signup from "./pages/Signup";
+import PhotoGallery from "./pages/photogallery";
 
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/login" element={<Signup/>} />
           
+          <Route path="/photogallery" element={<PhotoGallery/>} />
         </Routes>
         <Footer />
       </div>

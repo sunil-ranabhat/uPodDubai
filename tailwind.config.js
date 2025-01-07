@@ -1,16 +1,8 @@
-// tailwind.config.js
-module.exports = {
-  content: [
-    "./src/**/*.{html,js,jsx,ts,tsx}",  // Adjust this path based on your project structure
-  ],
+const withMT = require("@material-tailwind/react/utils/withMT");
+module.exports = withMT({
+  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
-    extend: {
-      backdropBlur: {
-        '6': '6px', // Equivalent to backdrop-filter: blur(6px);
-      },
-    },
+    extend: {},
   },
-  plugins: [
-    require('tailwindcss-filters'), // Add this if you're using tailwindcss-filters
-  ],
-};
+  plugins: [],
+});
