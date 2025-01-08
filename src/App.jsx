@@ -8,6 +8,7 @@ import Booking from "./pages/Booking";
 import Footer from "./components/Footer";
 import Signup from "./pages/Signup";
 import PhotoGallery from "./pages/photogallery";
+import BookNow from "./pages/Booknow";
 
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/login" element={<Signup/>} />
+          <Route path="/bookstudio" element={<BookNow/>} />
           
           <Route path="/photogallery" element={<PhotoGallery/>} />
         </Routes>

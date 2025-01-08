@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import image1 from "../assets/image1.jpeg";
 import image2 from "../assets/image2.jpeg";
 import image3 from "../assets/image3.jpg";
@@ -9,10 +9,21 @@ import image7 from "../assets/image7.avif";
 import image8 from "../assets/image8.jpeg";
 
 import { Carousel } from "@material-tailwind/react";
-import PricingTable from "./PricingTable"; // Import the PricingTable component
+import PricingTable from "./PricingTable";
 
 const BookNow = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto"; // Ensure cleanup
+    };
+  }, [isModalOpen]);
 
   const studioImages = [
     { src: image1, alt: "Studio 1" },
@@ -57,10 +68,9 @@ const BookNow = () => {
         </Carousel>
       </div>
 
-      {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-8 rounded-lg w-11/12 md:w-1/2 lg:w-1/3 relative">
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50 overflow-y-auto">
+          <div className="bg-white p-8 rounded-lg w-[50vw] h-[95vh] relative overflow-y-auto">
             <button
               onClick={closeModal}
               className="absolute top-2 right-2 text-xl font-bold text-gray-600"
@@ -68,8 +78,6 @@ const BookNow = () => {
               X
             </button>
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Pricing Details</h3>
-
-            {/* Pricing Table Section */}
             <PricingTable />
           </div>
         </div>
