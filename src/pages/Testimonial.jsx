@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
 const testimonials = [
   { id: 1, description: "Fantastic experience, very professional and met all our business needs.", name: "Maxine Meneses" },
@@ -25,13 +25,13 @@ const TestimonialCarousel = () => {
   };
 
   return (
-    <div className="w-full h-[450px] bg-[#ff7900] flex items-center justify-center relative">
+    <div className="w-full h-[600px] bg-[#ff7900] flex items-center justify-center relative p-10 md:p-16 lg:p-20">
       {/* Testimonial Content */}
-      <div className="text-center max-w-md px-4">
-        <p className="text-4xl font-semibold text-black mb-4">
+      <div className="text-center max-w-2xl px-6">
+        <p className="text-3xl md:text-5xl font-semibold text-black mb-6 leading-relaxed">
           “{testimonials[currentIndex].description}”
         </p>
-        <h4 className="text-xl text-black font-bold mt-16">
+        <h4 className="text-2xl md:text-3xl text-black font-bold mt-8">
           - {testimonials[currentIndex].name}
         </h4>
       </div>
@@ -39,27 +39,27 @@ const TestimonialCarousel = () => {
       {/* Left Arrow */}
       <button
         onClick={handlePrev}
-        className="absolute left-4 text-2xl text-black hover:text-gray-600"
+        className="absolute left-8 md:left-16 lg:left-16 text-5xl md:text-6xl text-black hover:text-gray-800 transition duration-300"
       >
-        <FaArrowLeft />
+        <FaAngleLeft />
       </button>
 
       {/* Right Arrow */}
       <button
         onClick={handleNext}
-        className="absolute right-4 text-2xl text-black hover:text-gray-600"
+        className="absolute right-8 md:right-16 lg:right-16 text-5xl md:text-6xl text-black hover:text-gray-800 transition duration-300"
       >
-        <FaArrowRight />
+        <FaAngleRight />
       </button>
 
       {/* Dots for slide indicators */}
-      <div className="absolute bottom-4 flex space-x-2">
+      <div className="absolute bottom-8 flex space-x-4">
         {testimonials.map((_, index) => (
           <div
             key={index}
             onClick={() => setCurrentIndex(index)}
-            className={`w-3 h-3 rounded-full cursor-pointer ${
-              index === currentIndex ? "bg-black" : "bg-gray-400"
+            className={`w-5 h-5 rounded-full cursor-pointer transition transform hover:scale-110 ${
+              index === currentIndex ? "bg-black" : "bg-gray-500"
             }`}
           ></div>
         ))}
@@ -69,6 +69,3 @@ const TestimonialCarousel = () => {
 };
 
 export default TestimonialCarousel;
-
-
-
