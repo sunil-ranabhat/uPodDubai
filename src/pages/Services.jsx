@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link if you're using React Router for navigation
 
 const PodcastServices = () => {
   const services = [
@@ -35,14 +36,21 @@ const PodcastServices = () => {
         {services.map((service, index) => (
           <div 
             key={index} 
-            className=" p-10 text-center h-72 w-full flex flex-col justify-center"
+            className="border-2 border-gray-300 border-opacity-10 p-10 text-center h-72 w-full flex flex-col justify-center hover:shadow-lg transition-all duration-300"
           >
-            <h3 className="text-3xl font-bold text-yellow-400 mb-4">{service.title}</h3>
+            <h3 className="text-3xl font-bold text-[#ff7900] mb-4">{service.title}</h3>
             <p className="text-xl text-gray-300">{service.description}</p>
           </div>
         ))}
       </div>
-      
+      <div className="text-center mt-16">
+        <Link 
+          to="/contactus" // Change to your actual contact page route
+          className="bg-[#ff7900] text-white py-3 px-8 rounded-full text-2xl font-semibold hover:bg-[#e67500] transition-all duration-300"
+        >
+          Contact Us
+        </Link>
+      </div>
     </div>
   );
 };
