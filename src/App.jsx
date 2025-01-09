@@ -14,6 +14,7 @@ import ScrollToTop from "./components/ScrollToTop";
 
 
 
+
 const App = () => {
   return (
     <div>
@@ -32,6 +33,7 @@ const App = () => {
           <Route path="/bookstudio" element={<BookNow/>} />
           <Route path="/details" element={<BookingForm/>} />
           <Route path="/photogallery" element={<PhotoGallery/>} />
+          
         </Routes>
         <Footer />
       </div>
