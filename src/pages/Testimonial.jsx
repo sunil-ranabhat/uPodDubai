@@ -25,7 +25,7 @@ const TestimonialCarousel = () => {
   };
 
   return (
-    <div className="w-full h-[600px] bg-[#ff7900] flex items-center justify-center relative p-10 md:p-16 lg:p-20">
+    <div className="w-full h-[600px] bg-[#ff7900] bg-opacity-95 flex items-center justify-center relative p-10 md:p-16 lg:p-20">
       {/* Testimonial Content */}
       <div className="text-center max-w-2xl px-6">
         <p className="text-3xl md:text-5xl font-semibold text-black mb-6 leading-relaxed">

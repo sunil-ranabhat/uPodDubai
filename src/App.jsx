@@ -10,11 +10,17 @@ import Signup from "./pages/Signup";
 import PhotoGallery from "./pages/photogallery";
 import BookNow from "./pages/Booknow";
 import HourSelection from "./pages/hourselection";
+import BookingForm from "./pages/Details";
+import ScrollToTop from "./components/ScrollToTop";
+
+
 
 const App = () => {
   return (
     <div>
+      <ScrollToTop />
       <Navbar />
+      
       {/* Add padding to prevent content overlap */}
       <div className="pt-16">
         <Routes>
@@ -27,6 +33,7 @@ const App = () => {
           <Route path="/bookstudio" element={<BookNow/>} />
           <Route path="/hourselection" element={<HourSelection/>} />
           
+          <Route path="/details" element={<BookingForm/>} />
           <Route path="/photogallery" element={<PhotoGallery/>} />
         </Routes>
         <Footer />
