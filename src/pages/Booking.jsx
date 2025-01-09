@@ -70,14 +70,14 @@ const BookNow = () => {
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50 overflow-y-auto">
-          <div className="bg-white p-8 rounded-lg w-[50vw] h-[95vh] relative overflow-y-auto">
+          <div className="bg-light-blue-50 bg-opacity-25 p-8 rounded-lg w-[50vw] h-[90vh] relative overflow-y-auto">
             <button
               onClick={closeModal}
-              className="absolute top-2 right-2 text-xl font-bold text-gray-600"
+              className="absolute top-2 right-2 text-xl font-bold text-black "  
             >
               X
             </button>
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">Pricing Details</h3>
+            
             <PricingTable />
           </div>
         </div>
