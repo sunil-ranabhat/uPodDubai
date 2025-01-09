@@ -9,7 +9,7 @@ import Footer from "./components/Footer";
 import Signup from "./pages/Signup";
 import PhotoGallery from "./pages/photogallery";
 import BookNow from "./pages/Booknow";
-
+import HourSelection from "./pages/hourselection";
 
 const App = () => {
   return (
@@ -25,6 +25,7 @@ const App = () => {
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/login" element={<Signup/>} />
           <Route path="/bookstudio" element={<BookNow/>} />
+          <Route path="/hourselection" element={<HourSelection/>} />
           
           <Route path="/photogallery" element={<PhotoGallery/>} />
         </Routes>
