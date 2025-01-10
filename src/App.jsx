@@ -8,7 +8,7 @@ import Booking from "./pages/Booking";
 import Footer from "./components/Footer";
 
 import PhotoGallery from "./pages/photogallery";
-import BookNow from "./pages/Booknow";
+import DateTimeSelection from "./pages/DateTimeSelection";
 import HourSelection from "./pages/hourselection";
 import BookingForm from "./pages/Details";
 import ScrollToTop from "./components/ScrollToTop";
@@ -31,10 +31,10 @@ const App = () => {
           <Route path="/booknow" element={<Booking />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/contactus" element={<ContactUs />} />
-          <Route path="/login" element={<Login/>} />
+          <Route path="/login" element={<Signup/>} />
           <Route path="/bookstudio" element={<BookNow/>} />
           <Route path="/hourselection" element={<HourSelection/>} />
-          
+          <Route path="/DateTimeSelection" element={<DateTimeSelection/>} />
           <Route path="/details" element={<BookingForm/>} />
           <Route path="/photogallery" element={<PhotoGallery/>} />
           
