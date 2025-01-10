@@ -71,37 +71,63 @@ function PricingTab({ onBookStudioClick, ...props }) {
 }
 
 function CheckoutStep({ bookingDetails, handlePreviousStep }) {
+  const totalCost = bookingDetails.price * bookingDetails.hours;
+
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Checkout</h2>
-      <p>
-        <strong>Studio:</strong> {bookingDetails.planName}
-      </p>
-      <p>
-        <strong>Price per Hour:</strong> AED {bookingDetails.price}
-      </p>
-      <p>
-        <strong>Hours:</strong> {bookingDetails.hours}
-      </p>
-      <p>
-        <strong>Date:</strong> {bookingDetails.date}
-      </p>
-      <p>
-        <strong>Time Slot:</strong> {bookingDetails.timeSlot}
-      </p>
-      <p>
-        <strong>Total Cost:</strong> AED{" "}
-        {bookingDetails.price * bookingDetails.hours}
-      </p>
-      <button
-        onClick={handlePreviousStep}
-        className="mt-4 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
-      >
-        Previous
-      </button>
+    <div className="min-h-screen flex items-center justify-center  p-4">
+      <div className="w-full max-w-lg bg-white shadow-xl rounded-lg p-8">
+        <h2 className="text-3xl font-extrabold mb-6 text-gray-800 text-center">
+          Checkout
+        </h2>
+
+        <div className="space-y-4">
+          <div className="flex justify-between">
+            <span className="font-medium text-gray-600">Studio:</span>
+            <span className="text-gray-800">{bookingDetails.planName}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-medium text-gray-600">Price per Hour:</span>
+            <span className="text-gray-800">AED {bookingDetails.price}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-medium text-gray-600">Hours:</span>
+            <span className="text-gray-800">{bookingDetails.hours}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-medium text-gray-600">Date:</span>
+            <span className="text-gray-800">{bookingDetails.date}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="font-medium text-gray-600">Time Slot:</span>
+            <span className="text-gray-800">{bookingDetails.timeSlot}</span>
+          </div>
+          <hr className="my-4 border-gray-300" />
+          <div className="flex justify-between font-bold text-xl">
+            <span>Total Cost:</span>
+            <span>AED {totalCost}</span>
+          </div>
+        </div>
+
+        <div className="mt-8 flex gap-4">
+          <button
+            onClick={handlePreviousStep}
+            className="w-1/2 bg-gray-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-gray-700 transition"
+          >
+            Back
+          </button>
+          <button
+            onClick={() => alert('Proceeding to payment...')} // Replace with actual payment function
+            className="w-1/2 bg-green-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-green-700 transition"
+          >
+            Confirm & Pay
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
+
+
 
 export default function PricingTable() {
   const [step, setStep] = useState(1);
