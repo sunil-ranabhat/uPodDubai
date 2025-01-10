@@ -2,6 +2,12 @@ import React, { useState } from 'react';
 
 function Login({ isPopupOpen, closePopup }) {
   const [activeTab, setActiveTab] = useState('login');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    alert('You have been logged out.');
+  };
 
   return (
     <>
@@ -17,27 +23,33 @@ function Login({ isPopupOpen, closePopup }) {
               ✕
             </button>
 
-            {/* Tabs */}
-            <div className="flex justify-between mb-6 border-b">
-              <button
-                className={`w-full py-2 text-center ${activeTab === 'login' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-600'}`}
-                onClick={() => setActiveTab('login')}
-              >
-                Login
-              </button>
-              <button
-                className={`w-full py-2 text-center ${activeTab === 'register' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-600'}`}
-                onClick={() => setActiveTab('register')}
-              >
-                Register
-              </button>
-            </div>
-
-            {/* Tab Content */}
-            {activeTab === 'login' ? (
-              <LoginForm />
+            {isLoggedIn ? (
+              <ProfileSection handleLogout={handleLogout} />
             ) : (
-              <RegisterForm />
+              <>
+                {/* Tabs */}
+                <div className="flex justify-between mb-6 border-b">
+                  <button
+                    className={`w-full py-2 text-center ${activeTab === 'login' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-600'}`}
+                    onClick={() => setActiveTab('login')}
+                  >
+                    Login
+                  </button>
+                  <button
+                    className={`w-full py-2 text-center ${activeTab === 'register' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-600'}`}
+                    onClick={() => setActiveTab('register')}
+                  >
+                    Register
+                  </button>
+                </div>
+
+                {/* Tab Content */}
+                {activeTab === 'login' ? (
+                  <LoginForm onLoginSuccess={() => setIsLoggedIn(true)} />
+                ) : (
+                  <RegisterForm />
+                )}
+              </>
             )}
           </div>
         </div>
@@ -46,24 +58,33 @@ function Login({ isPopupOpen, closePopup }) {
   );
 }
 
-const SocialMediaButtons = () => (
-  <div className="text-center mb-4">
-    <p>Sign in with:</p>
-    <div className="flex justify-center space-x-4 mb-4">
-      {['facebook-f', 'twitter', 'google', 'github'].map((icon, index) => (
-        <button
-          key={index}
-          className="p-2 bg-gray-200 rounded-full hover:bg-gray-300"
-        >
-          <i className={`fab fa-${icon}`} />
+const ProfileSection = ({ handleLogout }) => (
+  <div>
+    <h2 className="text-2xl font-bold text-center mb-6">Welcome!</h2>
+    <ul className="space-y-4">
+      <li>
+        <button className="w-full px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          Profile
         </button>
-      ))}
-    </div>
-    <p className="text-center">or:</p>
+      </li>
+      <li>
+        <button className="w-full px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          Booking Orders
+        </button>
+      </li>
+      <li>
+        <button
+          onClick={handleLogout}
+          className="w-full px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+        >
+          Logout
+        </button>
+      </li>
+    </ul>
   </div>
 );
 
-const LoginForm = () => {
+const LoginForm = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -72,7 +93,6 @@ const LoginForm = () => {
     e.preventDefault();
     setError('');
 
-    // Basic Validation
     if (!email || !password) {
       setError('Both fields are required');
       return;
@@ -93,6 +113,7 @@ const LoginForm = () => {
       alert('Login successful');
       setEmail('');
       setPassword('');
+      onLoginSuccess(); // Notify parent component of successful login
     } catch (err) {
       setError('An error occurred. Please try again.');
     }
@@ -100,7 +121,21 @@ const LoginForm = () => {
 
   return (
     <div>
-      <SocialMediaButtons />
+      {/* Social Media Section */}
+      <div className="text-center mb-4">
+        <p>Sign in with:</p>
+        <div className="flex justify-center space-x-4 mb-4">
+          {['facebook-f', 'google'].map((icon, index) => (
+            <button
+              key={index}
+              className="p-2 bg-gray-200 rounded-full hover:bg-gray-300"
+            >
+              <i className={`fab fa-${icon}`} />
+            </button>
+          ))}
+        </div>
+        <p className="text-center">or:</p>
+      </div>
 
       <form onSubmit={handleLogin}>
         {error && <p className="text-red-500 mb-4">{error}</p>}
@@ -182,7 +217,21 @@ const RegisterForm = () => {
 
   return (
     <div>
-      <SocialMediaButtons />
+      {/* Social Media Section */}
+      <div className="text-center mb-4">
+        <p>Sign up with:</p>
+        <div className="flex justify-center space-x-4 mb-4">
+          {['facebook-f', 'google'].map((icon, index) => (
+            <button
+              key={index}
+              className="p-2 bg-gray-200 rounded-full hover:bg-gray-300"
+            >
+              <i className={`fab fa-${icon}`} />
+            </button>
+          ))}
+        </div>
+        <p className="text-center">or:</p>
+      </div>
 
       <form onSubmit={handleRegister}>
         {error && <p className="text-red-500 mb-4">{error}</p>}
@@ -241,4 +290,3 @@ const RegisterForm = () => {
 };
 
 export default Login;
-

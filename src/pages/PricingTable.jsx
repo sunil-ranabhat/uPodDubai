@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import HourSelection from "./hourselection";
-
+import DateTimePicker from "./Booknow";
 
 function PricingTab({ onBookStudioClick, ...props }) {
   return (
@@ -24,7 +24,7 @@ function PricingTab({ onBookStudioClick, ...props }) {
               {props.planDescription}
             </div>
             <button
-              onClick={onBookStudioClick}
+              onClick={() => onBookStudioClick(props)}
               className="inline-flex w-full justify-center whitespace-nowrap rounded-lg bg-indigo-500 px-3.5 py-2.5 text-sm font-medium text-white shadow-sm shadow-indigo-950/10 transition-colors duration-150 hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 dark:focus-visible:ring-slate-600"
             >
               Book Studio
@@ -70,45 +70,67 @@ function PricingTab({ onBookStudioClick, ...props }) {
   );
 }
 
-export default function PricingTable() {
-  const [showHourSelection, setShowHourSelection] = useState(false);
+function CheckoutStep({ bookingDetails, handlePreviousStep }) {
+  return (
+    <div className="p-6">
+      <h2 className="text-2xl font-bold mb-4">Checkout</h2>
+      <p>
+        <strong>Studio:</strong> {bookingDetails.planName}
+      </p>
+      <p>
+        <strong>Price per Hour:</strong> AED {bookingDetails.price}
+      </p>
+      <p>
+        <strong>Hours:</strong> {bookingDetails.hours}
+      </p>
+      <p>
+        <strong>Date:</strong> {bookingDetails.date}
+      </p>
+      <p>
+        <strong>Time Slot:</strong> {bookingDetails.timeSlot}
+      </p>
+      <p>
+        <strong>Total Cost:</strong> AED{" "}
+        {bookingDetails.price * bookingDetails.hours}
+      </p>
+      <button
+        onClick={handlePreviousStep}
+        className="mt-4 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+      >
+        Previous
+      </button>
+    </div>
+  );
+}
 
-  const handleBookStudioClick = () => {
-    setShowHourSelection(true); // Set to show the HourSelection component
+export default function PricingTable() {
+  const [step, setStep] = useState(1);
+  const [bookingDetails, setBookingDetails] = useState({
+    planName: "",
+    price: 0,
+    hours: 1,
+    date: "",
+    timeSlot: "",
+  });
+
+  const handleNextStep = () => setStep((prevStep) => prevStep + 1);
+  const handlePreviousStep = () => setStep((prevStep) => prevStep - 1);
+
+  const updateDetails = (field, value) => {
+    setBookingDetails((prevDetails) => ({
+      ...prevDetails,
+      [field]: value,
+    }));
   };
 
-  const handleGoBackClick = () => {
-    setShowHourSelection(false); // Set to show the pricing details again
+  const handleBookStudioClick = (studioDetails) => {
+    setBookingDetails({ ...bookingDetails, ...studioDetails });
+    setStep(2);
   };
 
   return (
     <div className="mx-auto max-w-full">
-      {/* Show Go Back arrow only when HourSelection is visible */}
-      {showHourSelection ? (
-        <div className="relative flex justify-center items-center min-h-screen">
-          <button
-            onClick={handleGoBackClick}
-            className="absolute top-4 left-4 p-2 text-indigo-500 bg-white rounded-full shadow-md hover:text-indigo-600"
-          >
-            {/* Left Arrow SVG */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
-          <HourSelection />
-        </div>
-      ) : (
+      {step === 1 && (
         <div className="grid max-w-sm items-start gap-6 lg:max-w-none lg:grid-cols-3">
           <PricingTab
             planName="Audio & Video"
@@ -168,6 +190,34 @@ export default function PricingTable() {
             onBookStudioClick={handleBookStudioClick}
           />
         </div>
+      )}
+
+      {step === 2 && (
+        <HourSelection
+          onConfirm={(selectedHours) => {
+            updateDetails("hours", selectedHours); // Update selected hours
+            handleNextStep(); // Go to next step
+          }}
+          onGoBack={handlePreviousStep} // Handle going back
+        />
+      )}
+
+      {step === 3 && (
+        <DateTimePicker
+          selectedDate={bookingDetails.date}
+          selectedTime={bookingDetails.timeSlot}
+          onDateChange={(date) => updateDetails("date", date)}
+          onTimeChange={(time) => updateDetails("timeSlot", time)}
+          handleNextStep={handleNextStep}
+          handlePreviousStep={handlePreviousStep}
+        />
+      )}
+
+      {step === 4 && (
+        <CheckoutStep
+          bookingDetails={bookingDetails}
+          handlePreviousStep={handlePreviousStep}
+        />
       )}
     </div>
   );
