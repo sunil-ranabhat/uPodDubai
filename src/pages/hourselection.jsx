@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
-const HourSelection = () => {
+const HourSelection = ({ onConfirm, onGoBack }) => {
   const [selectedHours, setSelectedHours] = useState(2);
+
   const hoursOptions = Array.from({ length: 5 }, (_, i) => i + 1);
 
   const handleHoursChange = (hours) => {
@@ -13,8 +14,8 @@ const HourSelection = () => {
   };
 
   return (
-    // <div className="flex justify-center items-center min-h-screen ">
-      <div className="bg-white rounded-lg shadow-lg p-8 w-96 ">
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="bg-white rounded-lg shadow-lg p-8 w-96">
         <h2 className="text-xl font-bold text-black text-center mb-6">
           How Many Hours?
         </h2>
@@ -38,13 +39,26 @@ const HourSelection = () => {
             </button>
           ))}
         </div>
-        <button className="w-full bg-[#ff7900] text-white py-2 rounded-lg shadow-md hover:bg-orange-900 transition duration-150">
-          Select Date and Time
-        </button>
+        <div className="flex justify-between mt-6">
+          {/* Go Back Button */}
+          <button
+            onClick={onGoBack}
+            className="w-1/2 bg-gray-300 text-black py-2 rounded-lg shadow-md hover:bg-gray-400 transition duration-150 mr-2"
+          >
+            Go Back
+          </button>
+
+          {/* Confirm Button */}
+          <button
+            onClick={handleConfirmClick}
+            className="w-1/2 bg-[#ff7900] text-white py-2 rounded-lg shadow-md hover:bg-orange-900 transition duration-150"
+          >
+            Select Date and Time
+          </button>
+        </div>
       </div>
-    // </div>
+    </div>
   );
 };
 
 export default HourSelection;
-
