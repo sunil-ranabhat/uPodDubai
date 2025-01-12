@@ -12,8 +12,10 @@ import PhotoGallery from "./pages/photogallery";
 import HourSelection from "./pages/hourselection";
 import BookingForm from "./pages/Details";
 import ScrollToTop from "./components/ScrollToTop";
-import Login from "./pages/Login";
+//import Login from "./pages/Login";
 import DateTimePicker from "./pages/Booknow";
+import NotFoundPage from "./pages/NotFoundPage";
+import { ToastContainer } from "react-toastify";
 
 
 
@@ -21,6 +23,7 @@ import DateTimePicker from "./pages/Booknow";
 const App = () => {
   return (
     <div>
+      <ToastContainer />
       <ScrollToTop />
       <Navbar />
       
@@ -32,12 +35,12 @@ const App = () => {
           <Route path="/booknow" element={<Booking />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/contactus" element={<ContactUs />} />
-          <Route path="/login" element={<Login/>} />
+          <Route path ="*" element = {<NotFoundPage/>} />
        
           <Route path="/hourselection" element={<HourSelection/>} />
           <Route path="/DateTimeSelection" element={<DateTimePicker/>} />
           <Route path="/details" element={<BookingForm/>} />
-          <Route path="/photogallery" element={<PhotoGallery/>} />
+          <Route path="/ourwork" element={<PhotoGallery/>} />
           
         </Routes>
         <Footer />

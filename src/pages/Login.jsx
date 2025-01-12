@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 function Login({ isPopupOpen, closePopup }) {
   const [activeTab, setActiveTab] = useState('login');
@@ -6,7 +7,7 @@ function Login({ isPopupOpen, closePopup }) {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    alert('You have been logged out.');
+    toast.success("Logged out successfully.");
   };
 
   return (
@@ -107,15 +108,17 @@ const LoginForm = ({ onLoginSuccess }) => {
 
       if (!response.ok) {
         setError('Invalid email or password');
+        toast.error('Invalid email or password');
         return;
       }
 
-      alert('Login successful');
+      toast.success('Login successful');
       setEmail('');
       setPassword('');
       onLoginSuccess(); // Notify parent component of successful login
     } catch (err) {
       setError('An error occurred. Please try again.');
+      toast.error('An error occurred. Please try again.');
     }
   };
 
@@ -206,12 +209,13 @@ const RegisterForm = () => {
         return;
       }
 
-      alert('Registration successful');
+      toast.success('Registration successful');
       setName('');
       setEmail('');
       setPassword('');
     } catch (err) {
       setError('An error occurred. Please try again.');
+      toast.error('An error occurred. Please try again.');
     }
   };
 

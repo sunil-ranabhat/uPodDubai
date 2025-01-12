@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import DateTimePicker from "./Booknow";
 import HourSelection from "./hourselection";
+import BookingForm from "./Details";
 
 function PricingTab({ onBookStudioClick, ...props }) {
   return (
@@ -70,11 +71,33 @@ function PricingTab({ onBookStudioClick, ...props }) {
   );
 }
 
-function CheckoutStep({ bookingDetails, handlePreviousStep }) {
+
+
+function CheckoutStep({ bookingDetails, handlePreviousStep, handleNextStep }) {
+  const [promoCode, setPromoCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [error, setError] = useState("");
+
   const totalCost = bookingDetails.price * bookingDetails.hours;
+  const discountedTotal = totalCost - discount;
+
+  const validPromoCodes = {
+    SAVE10: 10, // AED 10 discount
+    SAVE20: 20, // AED 20 discount
+  };
+
+  const applyPromoCode = () => {
+    if (validPromoCodes[promoCode]) {
+      setDiscount(validPromoCodes[promoCode]);
+      setError("");
+    } else {
+      setError("Invalid promo code");
+      setDiscount(0);
+    }
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center  p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-lg bg-white shadow-xl rounded-lg p-8">
         <h2 className="text-3xl font-extrabold mb-6 text-gray-800 text-center">
           Checkout
@@ -104,8 +127,37 @@ function CheckoutStep({ bookingDetails, handlePreviousStep }) {
           <hr className="my-4 border-gray-300" />
           <div className="flex justify-between font-bold text-xl">
             <span>Total Cost:</span>
-            <span>AED {totalCost}</span>
+            <span>AED {discountedTotal}</span>
           </div>
+        </div>
+
+        {/* Promo Code Section */}
+        <div className="mt-6">
+          <label htmlFor="promoCode" className="block text-gray-600 font-medium mb-2">
+            Promo Code
+          </label>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              id="promoCode"
+              value={promoCode}
+              onChange={(e) => setPromoCode(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-green-500"
+              placeholder="Enter promo code"
+            />
+            <button
+              onClick={applyPromoCode}
+              className="bg-blue-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 transition"
+            >
+              Apply
+            </button>
+          </div>
+          {error && <p className="text-red-500 mt-2">{error}</p>}
+          {discount > 0 && (
+            <p className="text-green-600 mt-2">
+              Promo code applied! You saved AED {discount}.
+            </p>
+          )}
         </div>
 
         <div className="mt-8 flex gap-4">
@@ -116,7 +168,7 @@ function CheckoutStep({ bookingDetails, handlePreviousStep }) {
             Back
           </button>
           <button
-            onClick={() => alert('Proceeding to payment...')} // Replace with actual payment function
+            onClick={handleNextStep} // Replace with actual payment function
             className="w-1/2 bg-green-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-green-700 transition"
           >
             Confirm & Pay
@@ -129,6 +181,9 @@ function CheckoutStep({ bookingDetails, handlePreviousStep }) {
 
 
 
+
+
+
 export default function PricingTable() {
   const [step, setStep] = useState(1);
   const [bookingDetails, setBookingDetails] = useState({
@@ -137,6 +192,7 @@ export default function PricingTable() {
     hours: 1,
     date: "",
     timeSlot: "",
+    paymentMethod: "creditCard", // Default payment method
   });
 
   const handleNextStep = () => setStep((prevStep) => prevStep + 1);
@@ -153,6 +209,7 @@ export default function PricingTable() {
     setBookingDetails({ ...bookingDetails, ...studioDetails });
     setStep(2); // Go directly to date and time selection (step 2)
   };
+
 
   return (
     <div className="mx-auto max-w-full">
@@ -218,13 +275,13 @@ export default function PricingTable() {
         </div>
       )}
 
-      {step === 2 && (
+{step === 2 && (
         <HourSelection
           onConfirm={(selectedHours) => {
-            updateDetails("hours", selectedHours); // Update selected hours
-            handleNextStep(); // Go to next step
+            updateDetails("hours", selectedHours);
+            handleNextStep();
           }}
-          onGoBack={handlePreviousStep} // Handle going back
+          onGoBack={handlePreviousStep}
         />
       )}
 
@@ -241,6 +298,14 @@ export default function PricingTable() {
 
       {step === 4 && (
         <CheckoutStep
+          bookingDetails={bookingDetails}
+          handlePreviousStep={handlePreviousStep}
+          handleNextStep={handleNextStep}
+        />
+      )}
+
+      {step === 5 && (
+        <BookingForm
           bookingDetails={bookingDetails}
           handlePreviousStep={handlePreviousStep}
         />

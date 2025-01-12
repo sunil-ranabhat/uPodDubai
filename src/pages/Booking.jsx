@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import image1 from "../assets/image1.jpeg";
 import image2 from "../assets/image2.jpeg";
 import image3 from "../assets/image3.jpg";
@@ -7,23 +7,11 @@ import image5 from "../assets/image5.jpeg";
 import image6 from "../assets/image6.jpeg";
 import image7 from "../assets/image7.avif";
 import image8 from "../assets/image8.jpeg";
-
-import { Carousel } from "@material-tailwind/react";
 import PricingTable from "./PricingTable";
 
 const BookNow = () => {
+  const [fullScreenPhoto, setFullScreenPhoto] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    if (isModalOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-    return () => {
-      document.body.style.overflow = "auto"; // Ensure cleanup
-    };
-  }, [isModalOpen]);
 
   const studioImages = [
     { src: image1, alt: "Studio 1" },
@@ -36,46 +24,83 @@ const BookNow = () => {
     { src: image8, alt: "Studio 8" },
   ];
 
-  const openModal = () => {
+  const handlePhotoClick = (photo) => {
+    setFullScreenPhoto(photo);
+  };
+
+  const handleCloseFullScreen = () => {
+    setFullScreenPhoto(null);
+  };
+
+  const handleOpenModal = () => {
     setIsModalOpen(true);
   };
 
-  const closeModal = () => {
+  const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-11/12 md:w-2/3 lg:w-1/2">
-        <Carousel infinite loop className="rounded-xl">
-          {studioImages.map((photo, index) => (
-            <div key={index} className="relative group">
-              <img
-                src={photo.src}
-                alt={photo.alt}
-                className="h-full w-full object-cover rounded-lg group-hover:transform group-hover:scale-110 transition-all duration-500"
-              />
-              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-10">
+      <h2 className="text-5xl font-extrabold text-center text-white mb-12">
+        Book Your Studio
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {studioImages.map((photo, index) => (
+          <div
+            key={index}
+            className="relative overflow-hidden rounded-lg shadow-lg transform transition duration-500 hover:shadow-2xl group"
+          >
+            <img
+              src={photo.src}
+              alt={photo.alt}
+              className="w-full h-64 object-cover transition-all duration-500"
+              onClick={() => handlePhotoClick(photo)}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+              <div className="flex flex-col gap-2">
+                <h3 className="text-lg text-white font-semibold">{photo.alt}</h3>
                 <button
-                  onClick={openModal}
-                  className="px-6 py-3 bg-white text-gray-800 font-bold rounded-lg shadow-xl hover:bg-gray-800 hover:text-white transition-colors duration-300 transform group-hover:scale-105 group-hover:translate-y-2"
+                  onClick={handleOpenModal}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-colors"
                 >
-                  View Details
+                  Book Now
                 </button>
               </div>
             </div>
-          ))}
-        </Carousel>
+          </div>
+        ))}
       </div>
 
+      {/* Full-Screen Photo Viewer */}
+      {fullScreenPhoto && (
+        <div
+          className="fixed inset-0 z-50 bg-black bg-opacity-75 flex items-center justify-center"
+          onClick={handleCloseFullScreen}
+        >
+          <img
+            src={fullScreenPhoto.src}
+            alt={fullScreenPhoto.alt}
+            className="max-w-full max-h-full"
+          />
+          <button
+            onClick={handleCloseFullScreen}
+            className="absolute top-5 right-5 text-white text-2xl font-bold"
+          >
+            &times;
+          </button>
+        </div>
+      )}
+
+      {/* Booking Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50 overflow-y-auto">
-          <div className="bg-light-blue-50 bg-opacity-25 p-8 rounded-lg w-[50vw] h-[90vh] relative overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 flex justify-center items-center">
+          <div className=" p-6 rounded-lg w-11/12 md:w-3/4 lg:w-1/2 max-h-[90vh] overflow-y-auto relative">
             <button
-              onClick={closeModal}
-              className="absolute top-2 right-2 text-xl font-bold text-black "  
+              onClick={handleCloseModal}
+              className="absolute top-2 right-2 text-4xl font-bold text-white hover:text-red-500 transition-colors"
             >
-              X
+              &times;
             </button>
             
             <PricingTable />

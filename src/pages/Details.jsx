@@ -1,17 +1,36 @@
-import React, { useState } from 'react';
-import { FaCreditCard, FaPaypal, FaRegCreditCard } from 'react-icons/fa'; // You can install react-icons if not yet installed
-import { loadStripe } from '@stripe/stripe-js';
+import React, { useState, useEffect } from "react";
+import { FaCreditCard, FaPaypal } from "react-icons/fa";
+import { loadStripe } from "@stripe/stripe-js";
+import Login from "./Login";
+import { toast } from "react-toastify";
 
-const stripePromise = loadStripe('your-stripe-public-key'); // Your Stripe Public Key
+const stripePromise = loadStripe("your-stripe-public-key"); // Replace with your actual Stripe Public Key
 
-const BookingForm = () => {
+const BookingForm = ({ bookingDetails, handlePreviousStep }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-    paymentMethod: 'creditCard', // Default payment method
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+    paymentMethod: "creditCard",
   });
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null); // User state
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // Login popup state
+
+  // Check login status on component mount
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) {
+      setUser(storedUser);
+      setFormData((prev) => ({
+        ...prev,
+        name: storedUser.name || "",
+        email: storedUser.email || "",
+        phone: storedUser.phone || "",
+      }));
+    }
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,27 +39,85 @@ const BookingForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Call the backend to create a Stripe session
-    const response = await fetch('http://localhost:3001/create-checkout-session', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ paymentMethod: formData.paymentMethod }), // Pass the selected payment method
-    });
+    // Check if user is logged in before proceeding
+    if (!user) {
+      toast.error("Please log in to make a booking.");
+      setIsPopupOpen(true);
+      return;
+    }
 
-    const session = await response.json();
+    setLoading(true);
+    try {
+      const sessionResponse = await fetch(
+        "http://localhost:3001/create-checkout-session",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            paymentMethod: formData.paymentMethod,
+            bookingDetails,
+            customerDetails: formData,
+          }),
+        }
+      );
 
-    // Redirect the user to Stripe's hosted checkout page
-    const stripe = await stripePromise;
-    stripe.redirectToCheckout({ sessionId: session.id });
+      if (!sessionResponse.ok)
+        throw new Error("Failed to create checkout session");
+
+      const session = await sessionResponse.json();
+      const stripe = await stripePromise;
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: session.id,
+      });
+
+      if (error) {
+        toast.error(error.message);
+        console.error("Stripe Checkout error:", error);
+      } else {
+        const storeResponse = await fetch(
+          "http://localhost:3001/store-booking",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              bookingDetails,
+              customerDetails: formData,
+            }),
+          }
+        );
+
+        if (!storeResponse.ok) throw new Error("Failed to store booking");
+
+       toast.success("Booking submitted successfully!");
+      }
+    } catch (error) {
+      console.error("Error submitting booking form:", error);
+      toast.error("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLoginSuccess = () => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    setUser(storedUser);
+    setFormData((prev) => ({
+      ...prev,
+      name: storedUser.name || "",
+      email: storedUser.email || "",
+      phone: storedUser.phone || "",
+    }));
+    setIsPopupOpen(false); // Close the popup after successful login
   };
 
   return (
-    <div className="min-h-screen bg-gray-300 flex justify-center items-center p-4">
+    <div className="min-h-screen flex justify-center items-center p-4">
       <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-8">
-        
         {/* Left Section - Customer Details & Payment Method */}
         <div className="p-6 md:p-8 bg-gray-50 border-r border-gray-200">
-          <h2 className="text-xl font-bold mb-6 text-orange-600">Customer Details</h2>
+          <h2 className="text-xl font-bold mb-6 text-orange-600">
+            Customer Details
+          </h2>
 
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
@@ -55,6 +132,7 @@ const BookingForm = () => {
                 required
               />
             </div>
+
             <div className="mb-4">
               <label className="block mb-1 font-medium">Email *</label>
               <input
@@ -67,6 +145,7 @@ const BookingForm = () => {
                 required
               />
             </div>
+
             <div className="mb-4">
               <label className="block mb-1 font-medium">Phone Number *</label>
               <input
@@ -88,106 +167,99 @@ const BookingForm = () => {
                   id="creditCard"
                   name="paymentMethod"
                   value="creditCard"
-                  checked={formData.paymentMethod === 'creditCard'}
+                  checked={formData.paymentMethod === "creditCard"}
                   onChange={handleChange}
                   className="mr-2"
                 />
-                <label htmlFor="creditCard" className="flex items-center space-x-2 font-medium">
+                <label
+                  htmlFor="creditCard"
+                  className="flex items-center space-x-2 font-medium"
+                >
                   <FaCreditCard className="text-xl" />
                   <span>Credit Card</span>
                 </label>
               </div>
+
               <div className="flex items-center">
                 <input
                   type="radio"
                   id="paypal"
                   name="paymentMethod"
                   value="paypal"
-                  checked={formData.paymentMethod === 'paypal'}
+                  checked={formData.paymentMethod === "paypal"}
                   onChange={handleChange}
                   className="mr-2"
                 />
-                <label htmlFor="paypal" className="flex items-center space-x-2 font-medium">
+                <label
+                  htmlFor="paypal"
+                  className="flex items-center space-x-2 font-medium"
+                >
                   <FaPaypal className="text-xl" />
                   <span>PayPal</span>
-                </label>
-              </div>
-              <div className="flex items-center">
-                <input
-                  type="radio"
-                  id="bankTransfer"
-                  name="paymentMethod"
-                  value="bankTransfer"
-                  checked={formData.paymentMethod === 'bankTransfer'}
-                  onChange={handleChange}
-                  className="mr-2"
-                />
-                <label htmlFor="bankTransfer" className="flex items-center space-x-2 font-medium">
-                  <FaRegCreditCard className="text-xl" />
-                  <span>Bank Transfer</span>
                 </label>
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300 ease-in-out"
+              className={`w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300 ease-in-out ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={loading}
             >
-              Submit Booking
+              {loading ? "Processing..." : "Submit Booking"}
             </button>
           </form>
         </div>
 
-        {/* Right Section - Booking Details & Payment Summary */}
+        {/* Right Section - Booking Summary */}
         <div className="p-6 md:p-8 bg-white">
-          <h2 className="text-xl font-bold mb-6 text-orange-600">Booking Details</h2>
-
+          <h2 className="text-xl font-bold mb-6 text-orange-600">
+            Booking Details
+          </h2>
           <div className="space-y-4">
-            <p className="text-lg font-medium">5H Video + Audio (Premium Edit) - UPS 2</p>
+            <p className="text-lg font-medium">{bookingDetails.planName}</p>
             <p>
-              <span className="font-semibold">Date & Time:</span> 8 January 2025 at 6:00 pm
+              <span className="font-semibold">Date & Time:</span>{" "}
+              {bookingDetails.date} at {bookingDetails.timeSlot}
             </p>
             <p>
-              <span className="font-semibold">Location:</span> Location 1, Gautam
-            </p>
-            <p>
-              <span className="font-semibold">Duration:</span> 5 hours
+              <span className="font-semibold">Duration:</span>{" "}
+              {bookingDetails.hours} hours
             </p>
           </div>
 
           <hr className="my-6 border-t border-gray-300" />
 
-          <h3 className="text-lg font-semibold mt-8 mb-4">Payment Details</h3>
+          <h3 className="text-lg font-semibold mt-8 mb-4">Payment Summary</h3>
           <div className="space-y-2">
             <div className="flex justify-between">
               <span>Subtotal</span>
-              <span>AED 5,714.29</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Tax</span>
-              <span>AED 285.71</span>
+              <span>AED {bookingDetails.price * bookingDetails.hours}</span>
             </div>
             <div className="flex justify-between font-bold text-lg">
               <span>Total</span>
-              <span>AED 6,000</span>
+              <span>AED {bookingDetails.price * bookingDetails.hours}</span>
             </div>
           </div>
 
-          <hr className="my-6 border-t border-gray-300" />
-
           <div className="mt-8 flex gap-4">
-            <button className="w-1/2 bg-[#ff7900] hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300 ease-in-out">
-              Book Now
+            <button
+              onClick={handlePreviousStep}
+              className="w-1/2 bg-gray-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-gray-700 transition"
+            >
+              Back
             </button>
           </div>
         </div>
       </div>
+
+      {/* Login Popup */}
+      <Login isPopupOpen={isPopupOpen} closePopup={() => setIsPopupOpen(false)} />
     </div>
   );
 };
 
 export default BookingForm;
-
-
 
 

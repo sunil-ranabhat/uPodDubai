@@ -34,7 +34,7 @@ const PhotoGallery = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-10">
       <h2 className="text-5xl font-extrabold text-center text-white mb-12">
-        Our Studios
+        Our Work
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {photos.map((photo, index) => (

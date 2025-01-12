@@ -7,7 +7,7 @@ const UPodStudioSection = () => {
       {/* Left Side - Text and Button */}
       <div className="w-full md:w-1/2 text-center md:text-left">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-center md:text-left text-gray-800 leading-tight">
-          "UPod studio is everyone’s top recommendation for recording podcast in Dubai".
+          " <span className='text-orange-500'>UPod</span> Studio is Everyone’s Top Recommendation For Recording Podcast in <span className='text-orange-500'>Dubai</span> ".
         </h1>
       </div>
 
