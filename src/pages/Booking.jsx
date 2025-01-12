@@ -24,45 +24,36 @@ const BookNow = () => {
     { src: image8, alt: "Studio 8" },
   ];
 
-  const handlePhotoClick = (photo) => {
-    setFullScreenPhoto(photo);
-  };
-
-  const handleCloseFullScreen = () => {
-    setFullScreenPhoto(null);
-  };
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  const handlePhotoClick = (photo) => setFullScreenPhoto(photo);
+  const handleCloseFullScreen = () => setFullScreenPhoto(null);
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-10">
-      <h2 className="text-5xl font-extrabold text-center text-white mb-12">
-        Book Your Studio
+    <div className="min-h-screen bg-blue-gray-200 bg-opacity-100 p-8">
+      <h2 className="text-5xl font-extrabold text-center text-black mb-12">
+        Choose the Best Studio
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+
+      {/* Studio Image Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {studioImages.map((photo, index) => (
           <div
             key={index}
-            className="relative overflow-hidden rounded-lg shadow-lg transform transition duration-500 hover:shadow-2xl group"
+            className="relative overflow-hidden rounded-lg shadow-lg transform transition duration-500 hover:scale-105 hover:shadow-2xl group"
           >
             <img
               src={photo.src}
               alt={photo.alt}
-              className="w-full h-64 object-cover transition-all duration-500"
+              className="w-full h-64 object-cover rounded-lg transition-transform duration-500"
               onClick={() => handlePhotoClick(photo)}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
+            <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
               <div className="flex flex-col gap-2">
                 <h3 className="text-lg text-white font-semibold">{photo.alt}</h3>
                 <button
                   onClick={handleOpenModal}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-colors"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transform transition-transform duration-300 hover:scale-105"
                 >
                   Book Now
                 </button>
@@ -75,34 +66,39 @@ const BookNow = () => {
       {/* Full-Screen Photo Viewer */}
       {fullScreenPhoto && (
         <div
-          className="fixed inset-0 z-50 bg-black bg-opacity-75 flex items-center justify-center"
+          className="fixed inset-0 z-50 bg-black bg-opacity-75 backdrop-blur-sm flex items-center justify-center"
           onClick={handleCloseFullScreen}
         >
-          <img
-            src={fullScreenPhoto.src}
-            alt={fullScreenPhoto.alt}
-            className="max-w-full max-h-full"
-          />
-          <button
-            onClick={handleCloseFullScreen}
-            className="absolute top-5 right-5 text-white text-2xl font-bold"
-          >
-            &times;
-          </button>
+          <div className="relative">
+            <img
+              src={fullScreenPhoto.src}
+              alt={fullScreenPhoto.alt}
+              className="max-w-full max-h-[90vh] rounded-lg shadow-lg"
+            />
+            <button
+              onClick={handleCloseFullScreen}
+              className="absolute top-4 right-4 text-white text-3xl font-bold bg-black bg-opacity-50 rounded-full px-3 py-1 hover:bg-opacity-75 transition-colors"
+            >
+              &times;
+            </button>
+          </div>
         </div>
       )}
 
       {/* Booking Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 flex justify-center items-center">
-          <div className=" p-6 rounded-lg w-11/12 md:w-3/4 lg:w-1/2 max-h-[90vh] overflow-y-auto relative">
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center">
+          <div className="bg-white bg-opacity-10 backdrop-blur-lg p-6 rounded-lg w-11/12 md:w-3/4 lg:w-1/2 max-h-[90vh] overflow-y-auto relative shadow-2xl">
             <button
               onClick={handleCloseModal}
-              className="absolute top-2 right-2 text-4xl font-bold text-white hover:text-red-500 transition-colors"
+              className="absolute top-4 right-4 text-white text-3xl font-bold hover:text-red-500 transition-colors"
             >
               &times;
             </button>
-            
+
+            <h2 className="text-3xl font-bold text-white text-center mb-2">
+              Booking Details
+            </h2>
             <PricingTable />
           </div>
         </div>

@@ -26,7 +26,7 @@ const Navbar = () => {
           </div>
 
           <ul className="hidden md:flex space-x-6 font-semibold text-xl">
-            {["HOME", "BOOK NOW", "OUR WORK", "FAQ", "CONTACT US"].map(
+            {["HOME", "BOOK NOW", "PHOTO GALLERY", "FAQ", "CONTACT US"].map(
               (item, index) => (
                 <li key={index}>
                   <Link
@@ -70,7 +70,7 @@ const Navbar = () => {
           ✕
         </button>
         <ul className="flex flex-col items-center justify-center space-y-6 h-full text-xl">
-          {["HOME", "BOOK NOW", "OUR WORK", "FAQ", "CONTACT US"].map(
+          {["HOME", "BOOK NOW", "PHOTO GALLERY", "FAQ", "CONTACT US"].map(
             (item, index) => (
               <li key={index}>
                 <Link

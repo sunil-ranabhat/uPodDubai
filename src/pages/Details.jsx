@@ -88,7 +88,7 @@ const BookingForm = ({ bookingDetails, handlePreviousStep }) => {
 
         if (!storeResponse.ok) throw new Error("Failed to store booking");
 
-       toast.success("Booking submitted successfully!");
+        toast.success("Booking submitted successfully!");
       }
     } catch (error) {
       console.error("Error submitting booking form:", error);
@@ -160,7 +160,7 @@ const BookingForm = ({ bookingDetails, handlePreviousStep }) => {
             </div>
 
             <h3 className="text-lg font-semibold mt-6 mb-4">Payment Method</h3>
-            <div className="mb-4 space-y-2">
+            <div className=" space-y-2">
               <div className="flex items-center">
                 <input
                   type="radio"
@@ -200,15 +200,7 @@ const BookingForm = ({ bookingDetails, handlePreviousStep }) => {
               </div>
             </div>
 
-            <button
-              type="submit"
-              className={`w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300 ease-in-out ${
-                loading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-              disabled={loading}
-            >
-              {loading ? "Processing..." : "Submit Booking"}
-            </button>
+           
           </form>
         </div>
 
@@ -250,16 +242,27 @@ const BookingForm = ({ bookingDetails, handlePreviousStep }) => {
             >
               Back
             </button>
+
+            <button
+              onClick={handleSubmit}
+              className={`w-1/2 bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition duration-300 ease-in-out ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={loading}
+            >
+              {loading ? "Processing..." : "Submit Booking"}
+            </button>
           </div>
         </div>
       </div>
 
       {/* Login Popup */}
-      <Login isPopupOpen={isPopupOpen} closePopup={() => setIsPopupOpen(false)} />
+      <Login
+        isPopupOpen={isPopupOpen}
+        closePopup={() => setIsPopupOpen(false)}
+      />
     </div>
   );
 };
 
 export default BookingForm;
-
-
