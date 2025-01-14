@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import React, { useState, useEffect } from 'react';
 
 function Login({ isPopupOpen, closePopup }) {
   const [activeTab, setActiveTab] = useState('login');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  useEffect(() => {
+    if (isPopupOpen) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+
+    // Cleanup on component unmount
+    return () => document.body.classList.remove('no-scroll');
+  }, [isPopupOpen]);
+
   const handleLogout = () => {
     setIsLoggedIn(false);
-    toast.success("Logged out successfully.");
+    alert('You have been logged out.');
   };
 
   return (
